@@ -1,0 +1,28 @@
+# Check for an interactive session
+[ -z "$PS1" ] && return
+
+export PATH=$HOME/local/bin:$HOME/.local/bin:$PATH
+
+# Colored promt
+PS1='\[\e[1;32m\]\u\[\e[1;31m\]@\[\e[1;34m\]\h\[\e[m\] \[\e[1;35m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[0;37m\]'
+
+export EDITOR="vim"
+export VISUAL="vim"
+
+# SLURM
+alias smap_='sacct -sr -a --format="JobID,User,JobName%30,Partition,NodeList,AllocCPUS,AllocGRES,ReqMem,Elapsed"'
+alias sacct_='sacct -a --format="JobID,User,JobName,Partition,NodeList,ReqCPUS,ReqMem,ReqGRES,AveDiskRead,AveDiskWrite,Elapsed"'
+
+alias sing='singularity shell --nv -B $SSH_AUTH_SOCK ~/image.sif'
+
+# General
+alias ls='ls -lh --color=auto'
+alias grep='grep --color'
+#export PYTHONWARNINGS="default"
+export PYTHONFAULTHANDLER=1
+export MAKEFLAGS="-j`nproc`"
+
+# GPG manages SSH-keys
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
